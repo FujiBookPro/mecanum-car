@@ -9,11 +9,8 @@
     "customizations": {
         "vscode": {
             "extensions":[
-                "ms-vscode.cpptools",
-                "ms-vscode.cpptools-themes",
+                "llvm-vs-code-extensions.vscode-clangd",
                 "twxs.cmake",
-                "donjayamanne.python-extension-pack",
-                "eamodio.gitlens",
                 "ms-iot.vscode-ros"
             ]
         }
