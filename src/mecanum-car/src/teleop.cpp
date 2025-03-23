@@ -1,11 +1,18 @@
 #include "interfaces/msg/chassis_speeds.hpp"
 #include <csignal>
-#include <rclcpp/node.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <termios.h>
 #include <unistd.h>
 
 using namespace std::chrono_literals;
 
+/**
+ * A node that runs on the operator controller (eg: my laptop) and sends key
+ * commands from the terminal to the guidance node as ChassisSpeeds messages.
+ *
+ * Right now, the ChassisSpeeds values are not scaled to any real velocity, and
+ * cannot be diagonal.
+ */
 class Teleop : rclcpp::Node {
 public:
   Teleop();

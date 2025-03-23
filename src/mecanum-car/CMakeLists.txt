@@ -16,6 +16,10 @@ find_package(rclcpp REQUIRED)
 find_package(interfaces REQUIRED)
 
 add_executable(hello_node src/hello_node.cpp)
+
+add_executable(guidance src/guidance.cpp)
+ament_target_dependencies(guidance rclcpp interfaces)
+
 add_executable(teleop src/teleop.cpp)
 ament_target_dependencies(teleop rclcpp interfaces)
 
