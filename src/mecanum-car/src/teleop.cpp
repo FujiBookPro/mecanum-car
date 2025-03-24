@@ -90,6 +90,8 @@ void quit(int sig) {
   // our own.
   (void)sig;
 
+  puts("Now exiting");
+
   tcsetattr(fd, TCSANOW, &cooked);
   rclcpp::shutdown();
   exit(0);

@@ -23,10 +23,14 @@ ament_target_dependencies(guidance rclcpp interfaces)
 add_executable(teleop src/teleop.cpp)
 ament_target_dependencies(teleop rclcpp interfaces)
 
+add_executable(drivetrain_dummy src/drivetrain_dummy.cpp)
+ament_target_dependencies(drivetrain_dummy rclcpp interfaces)
+
 install(TARGETS
   hello_node
   guidance
   teleop
+  drivetrain_dummy
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

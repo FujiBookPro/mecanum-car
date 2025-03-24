@@ -1,6 +1,3 @@
-#include <memory>
-#include <string>
-
 #include "interfaces/msg/chassis_speeds.hpp"
 #include <rclcpp/rclcpp.hpp>
 
@@ -16,9 +13,10 @@ using namespace std::chrono_literals;
 class Guidance : public rclcpp::Node {
 public:
   Guidance();
-  void handle_teleop(const interfaces::msg::ChassisSpeeds &);
 
 private:
+  void handle_teleop(const interfaces::msg::ChassisSpeeds &);
+
   rclcpp::Publisher<interfaces::msg::ChassisSpeeds>::SharedPtr
       drivetrain_publisher_;
   rclcpp::Subscription<interfaces::msg::ChassisSpeeds>::SharedPtr
@@ -27,15 +25,15 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
 
   interfaces::msg::ChassisSpeeds latest_teleop_speeds_;
-  rclcpp::Clock::SharedPtr update_clock;
-  rclcpp::Time last_update;
+  rclcpp::Clock::SharedPtr update_clock_;
+  rclcpp::Time last_update_;
 };
 
 Guidance::Guidance() : Node("guidance") {
   using interfaces::msg::ChassisSpeeds;
 
-  update_clock = this->get_clock();
-  last_update = update_clock->now();
+  update_clock_ = this->get_clock();
+  last_update_ = update_clock_->now();
 
   drivetrain_publisher_ =
       this->create_publisher<ChassisSpeeds>("drive_control_request", 10);
@@ -45,7 +43,7 @@ Guidance::Guidance() : Node("guidance") {
       [this](const ChassisSpeeds &msg) { handle_teleop(msg); });
 
   auto timer_callback = [this]() -> void {
-    if (update_clock->now() > last_update + 100ms) {
+    if (update_clock_->now() > last_update_ + 100ms) {
       latest_teleop_speeds_ = ChassisSpeeds();
     }
 
@@ -57,7 +55,7 @@ Guidance::Guidance() : Node("guidance") {
 
 void Guidance::handle_teleop(const interfaces::msg::ChassisSpeeds &msg) {
   latest_teleop_speeds_ = msg;
-  last_update = update_clock->now();
+  last_update_ = update_clock_->now();
 
   RCLCPP_INFO_STREAM(this->get_logger(),
                      "Recieved v_x: " << msg.v_x << " v_y: " << msg.v_y
